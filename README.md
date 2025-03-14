@@ -1,7 +1,7 @@
-This is a simple ESC framework, which will be slightly faster than normal component
+这是一个简单的ESC框架，其性能较于普通组件模式高一些
 
 ## 使用例子
-### 引入方式
+### 使用方式
 ```TypeScript
 entityManager: EntityManager=new EntityManager()
 start(){
