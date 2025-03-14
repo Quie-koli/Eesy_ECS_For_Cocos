@@ -4,16 +4,19 @@ import { BaseSystem } from './BaseSystem';
 export class EntityManager {
     entities: Map<Entity,Map<Function,IComponent>>=new Map()
     static systems: Map<Function,BaseSystem>=new Map()
+    promises;
     numOfEnitity=0
     static registerComponent<T extends IComponent>(system: BaseSystem,type: new()=>T){
         EntityManager.systems.set(type,system)
     }
+
     addEntity(){
         let o=new Entity()
         o.id=this.numOfEnitity++;
         this.entities.set(o,new Map());
         return o;
     }
+
     setEntityActive(entity: Entity,active: boolean){
         if(entity.active!=active){
             entity.active=active
@@ -30,6 +33,7 @@ export class EntityManager {
         }
 
     }
+    
     removeEntity(entity: Entity){
         let o=this.entities.get(entity)
         o.forEach((valiue,key)=>{
@@ -58,9 +62,11 @@ export class EntityManager {
     }
 
     update(deltaTime: number) {
-        EntityManager.systems.forEach(async (value,key)=>{
-            value.update(deltaTime)
-        })
+        for(const [key,value] of EntityManager.systems){
+            new Promise(()=>{
+                value.allUpdate(deltaTime)
+            })
+        }
     }
 }
 
