@@ -48,6 +48,7 @@ export class EntityManager {
         let e=EntityManager.systems.get(type)
         e.components.set(entity,p)
         this.entities.get(entity).set(type,p)
+        p.entity=entity;
         return p;
     }
 
